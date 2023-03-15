@@ -1,0 +1,25 @@
+# modify the directory_config, and rename this config to config.yaml
+
+window_config:
+    width: 1024
+    height: 768
+directory_config:
+    directory1: -
+    directory2: -
+    directory3: -
+    directory4: -
+    directory5: -
+    directory6: -
+    init_dir: -
+available_extension: 
+ - BMP
+ - ICO
+ - JPEG
+ - jpg
+ - png
+ - jfif
+ - webp
+ - BLP
+ - BMP
+ - tiff
+threads: 4
