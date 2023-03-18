@@ -12,7 +12,8 @@ import time
 import io
 import os
 
-with open(r'./config.yaml') as f:
+config_file = Path(os.getcwd()) / 'config.yaml'
+with config_file.open() as f:
     config = yaml.safe_load(f)
 w = config['window_config']['width']
 h = config['window_config']['height']
@@ -91,113 +92,113 @@ class BrowseHandler():
             event.keycode = chr(event.keycode)
             
         if event.keycode == 'U':
-            self.layer1_backward()
+            self.depth1_backward()
         elif event.keycode == 'I':
-            self.layer1_forward(maxindexes)
+            self.depth1_forward(maxindexes)
         elif event.keycode == 'O': # end ';'
-            self.layer1_last(maxindexes)
+            self.depth1_last(maxindexes)
         elif event.keycode == 'Y': # home'h'
-            self.layer1_first()
-        elif event.keycode == '7': # 'y': to random file on layer1
-            self.layer1_random(maxindexes)
+            self.depth1_first()
+        elif event.keycode == '7': # 'y': to random file on depth1
+            self.depth1_random(maxindexes)
         elif event.keycode == 'J':
-            self.layer2_backward()
+            self.depth2_backward()
         elif event.keycode == 'K':
-            self.layer2_forward(maxindexes)
+            self.depth2_forward(maxindexes)
         elif event.keycode == 'L': # end ','
-            self.layer2_last(maxindexes)
+            self.depth2_last(maxindexes)
         elif event.keycode == 'H': # home '8'
-            self.layer2_first()
+            self.depth2_first()
         elif event.keycode == '8': # 'u': to random file on subfileind
-            self.layer2_random(maxindexes)
+            self.depth2_random(maxindexes)
         elif event.keycode == 'M': # 'I'
-            self.layer3_backward()
+            self.depth3_backward()
         elif event.keycode == 188: # 'K'
-            self.layer3_forward(maxindexes)
+            self.depth3_forward(maxindexes)
         elif event.keycode == 190: # end ','
-            self.layer3_last(maxindexes)
+            self.depth3_last(maxindexes)
         elif event.keycode == 'N': # home '8'
-            self.layer3_first()
+            self.depth3_first()
             
-    def set_layer_num(self, layer, num):
-        if layer == 1:
-            self.layer1_index = num
-            self.layer2_index = 0
-            self.layer3_index = 0
-        elif layer == 2:
-            self.layer2_index = num
-            self.layer3_index = 0
-        elif layer == 3:
-            self.layer3_index = num
+    def set_depth_num(self, depth, num):
+        if depth == 1:
+            self.depth1_index = num
+            self.depth2_index = 0
+            self.depth3_index = 0
+        elif depth == 2:
+            self.depth2_index = num
+            self.depth3_index = 0
+        elif depth == 3:
+            self.depth3_index = num
     
     def reset(self):
-        self.set_layer_num(1, 0)
+        self.set_depth_num(1, 0)
        
-    def go_to_fileindex(self, layer, num, maxindexes):
+    def go_to_fileindex(self, depth, num, maxindexes):
         try:
             num = int(''.join(num)) - 1
-            if layer == 1:
-                self.set_layer_num(1, max(min(num, maxindexes[0] - 1), 0))
-            elif layer == 2:
-                self.set_layer_num(1, max(min(num, maxindexes[1] - 1), 0))
-            elif layer == 3:
-                self.set_layer_num(1, max(min(num, maxindexes[2] - 1), 0))
+            if depth == 1:
+                self.set_depth_num(1, max(min(num, maxindexes[0] - 1), 0))
+            elif depth == 2:
+                self.set_depth_num(1, max(min(num, maxindexes[1] - 1), 0))
+            elif depth == 3:
+                self.set_depth_num(1, max(min(num, maxindexes[2] - 1), 0))
         except ValueError as e:
             pass
         
                 
     def get_now_indexes(self):
-        return (self.layer1_index, self.layer2_index, self.layer3_index)
+        return (self.depth1_index, self.depth2_index, self.depth3_index)
         
-    def layer1_forward(self, maxindexes):
-        self.layer1_index = min(self.layer1_index+1, maxindexes[0]-1)
-        self.layer2_index = 0
-        self.layer3_index = 0
-    def layer2_forward(self, maxindexes):
-        self.layer2_index = min(self.layer2_index+1, maxindexes[1]-1)
-        self.layer3_index = 0
-    def layer3_forward(self, maxindexes):
-        self.layer3_index = min(self.layer3_index+1, maxindexes[2]-1)
+    def depth1_forward(self, maxindexes):
+        self.depth1_index = min(self.depth1_index+1, maxindexes[0]-1)
+        self.depth2_index = 0
+        self.depth3_index = 0
+    def depth2_forward(self, maxindexes):
+        self.depth2_index = min(self.depth2_index+1, maxindexes[1]-1)
+        self.depth3_index = 0
+    def depth3_forward(self, maxindexes):
+        self.depth3_index = min(self.depth3_index+1, maxindexes[2]-1)
         
-    def layer1_backward(self):
-        self.layer1_index = max(self.layer1_index-1, 0)
-        self.layer2_index = 0
-        self.layer3_index = 0
-    def layer2_backward(self):
-        self.layer2_index = max(self.layer2_index-1, 0)
-        self.layer3_index = 0
-    def layer3_backward(self):
-        self.layer3_index = max(self.layer3_index-1, 0)
+    def depth1_backward(self):
+        self.depth1_index = max(self.depth1_index-1, 0)
+        self.depth2_index = 0
+        self.depth3_index = 0
+    def depth2_backward(self):
+        self.depth2_index = max(self.depth2_index-1, 0)
+        self.depth3_index = 0
+    def depth3_backward(self):
+        self.depth3_index = max(self.depth3_index-1, 0)
         
-    def layer1_first(self):
-        self.layer1_index = 0
-        self.layer2_index = 0
-        self.layer3_index = 0
-    def layer2_first(self):
-        self.layer2_index = 0
-        self.layer3_index = 0
-    def layer3_first(self):
-        self.layer3_index = 0
+    def depth1_first(self):
+        self.depth1_index = 0
+        self.depth2_index = 0
+        self.depth3_index = 0
+    def depth2_first(self):
+        self.depth2_index = 0
+        self.depth3_index = 0
+    def depth3_first(self):
+        self.depth3_index = 0
         
-    def layer1_last(self, maxindexes):
-        self.layer1_index = maxindexes[0] - 1
-        self.layer2_index = 0
-        self.layer3_index = 0
-    def layer2_last(self, maxindexes):
-        self.layer2_index = maxindexes[1] - 1
-        self.layer3_index = 0
-    def layer3_last(self, maxindexes):
-        self.layer3_index = maxindexes[2] - 1
+    def depth1_last(self, maxindexes):
+        self.depth1_index = maxindexes[0] - 1
+        self.depth2_index = 0
+        self.depth3_index = 0
+    def depth2_last(self, maxindexes):
+        self.depth2_index = maxindexes[1] - 1
+        self.depth3_index = 0
+    def depth3_last(self, maxindexes):
+        self.depth3_index = maxindexes[2] - 1
         
-    def layer1_random(self, maxindexes):
-        self.layer1_index = random.choice(range(maxindexes[0]))
-        self.layer2_index = 0
-        self.layer3_index = 0
-    def layer2_random(self, maxindexes):
-        self.layer2_index = random.choice(range(maxindexes[1]))
-        self.layer3_index = 0
-    def layer3_random(self, maxindexes):
-        self.layer3_index = random.choice(range(maxindexes[2]))
+    def depth1_random(self, maxindexes):
+        self.depth1_index = random.choice(range(maxindexes[0]))
+        self.depth2_index = 0
+        self.depth3_index = 0
+    def depth2_random(self, maxindexes):
+        self.depth2_index = random.choice(range(maxindexes[1]))
+        self.depth3_index = 0
+    def depth3_random(self, maxindexes):
+        self.depth3_index = random.choice(range(maxindexes[2]))
 
     
 class FileHandler():
@@ -209,127 +210,125 @@ class FileHandler():
         
     def set_root_dir(self, dir):
         self.dir = Path(dir)
-        self.filelist_layer1 = sorted(list([dir for dir in self.dir.iterdir() if dir.is_dir() or self.check_ext(dir)]), key=self.sort_file_fn[0])
-        self.filelist_layer2 = [[] for _ in range(self.get_layer1_len())]
-        self.reading_lock_1layer = [threading.Lock() for i in range(self.get_layer1_len())]
-        self.layer1_loaded = [False for i in range(self.get_layer1_len())]
+        self.filelist_depth1 = sorted(list([dir for dir in self.dir.iterdir() if dir.is_dir() or self.check_ext(dir)]), key=self.sort_file_fn[0])
+        self.filelist_depth2 = [[] for _ in range(self.get_depth1_len())]
+        self.reading_lock_1depth = [threading.Lock() for i in range(self.get_depth1_len())]
+        self.depth1_loaded = [False for i in range(self.get_depth1_len())]
         
-        self.set_layer1_dir(0)
-        self.threads = [threading.Thread(target=self.set_layer1_dirs, args=(i, self.poolnode, len(self.filelist_layer1))) for i in range(self.poolnode)]
+        self.set_depth1_dir(0)
+        self.threads = [threading.Thread(target=self.set_depth1_dirs, args=(i, self.poolnode, len(self.filelist_depth1))) for i in range(self.poolnode)]
         for t in self.threads:
             t.daemon = True
             t.start()
-        self.set_layer3(0, 0)
+        self.set_depth3(0, 0)
         
-    def set_layer1_dirs(self, start, step, end):
+    def set_depth1_dirs(self, start, step, end):
         for i in range(start, end, step):
-            self.set_layer1_dir(i)
+            self.set_depth1_dir(i)
         if start == 0:
             for i in range(end):
-                self.set_layer1_dir(i)
-            for i in range(len(self.filelist_layer1) - 1, -1, -1):
-                if len(self.filelist_layer2[i]) == 0:
-                    self.filelist_layer2.pop(i)
-                    self.filelist_layer1.pop(i)
-                    self.layer1_loaded.pop(i)
-                    self.reading_lock_1layer.pop(i)
+                self.set_depth1_dir(i)
+            for i in range(len(self.filelist_depth1) - 1, -1, -1):
+                if len(self.filelist_depth2[i]) == 0:
+                    self.filelist_depth2.pop(i)
+                    self.filelist_depth1.pop(i)
+                    self.depth1_loaded.pop(i)
+                    self.reading_lock_1depth.pop(i)
             
             
-    def handle_sort_fn(self, command, layer, indexes):
+    def handle_sort_fn(self, command, depth, indexes):
         if command == 'date':
-            self.set_sort_fn('d', layer, indexes[0])
+            self.set_sort_fn('d', depth, indexes[0])
         if command == 'name':
-            self.set_sort_fn('n', layer, indexes[0])
+            self.set_sort_fn('n', depth, indexes[0])
             
-    def set_layer3(self, layer1_index, layer2_index):
-        print(':', layer1_index, layer2_index)
-        if self.filelist_layer2[layer1_index][layer2_index][1].is_dir():
-            self.filelist_layer3 = sorted([f for f in self.filelist_layer2[layer1_index][layer2_index][1].iterdir() if f.is_file()], key=self.sort_file_fn[2])
+    def set_depth3(self, depth1_index, depth2_index):
+        if self.filelist_depth2[depth1_index][depth2_index][1].is_dir():
+            self.filelist_depth3 = sorted([f for f in self.filelist_depth2[depth1_index][depth2_index][1].iterdir() if f.is_file() and self.check_ext(f)], key=self.sort_file_fn[2])
         else:
-            self.filelist_layer3 = [self.filelist_layer2[layer1_index][layer2_index][1]]
-        print(self.filelist_layer3)
+            self.filelist_depth3 = [self.filelist_depth2[depth1_index][depth2_index][1]]
         
-    def set_layer1_dir(self, index):
-        with self.reading_lock_1layer[index]:
-            if self.layer1_loaded[index]:
+    def set_depth1_dir(self, index):
+        with self.reading_lock_1depth[index]:
+            if self.depth1_loaded[index]:
                 return
-            if not self.layer1_loaded[index]:
-                if self.filelist_layer1[index].is_dir():
-                    for file in self.filelist_layer1[index].iterdir():
-                        preview_file, haslayer3 = self.get_preview_file(file)
+            if not self.depth1_loaded[index]:
+                if self.filelist_depth1[index].is_dir():
+                    for file in self.filelist_depth1[index].iterdir():
+                        preview_file, depth = self.get_preview_file(file)
                         if preview_file != None:
-                            self.filelist_layer2[index].append((preview_file, file, haslayer3))
+                            self.filelist_depth2[index].append((preview_file, file, depth))
                     
-                elif self.check_ext(self.filelist_layer1[index]):
-                    self.filelist_layer2[index].append((self.filelist_layer1[index], self.filelist_layer1[index], False))
-            self.filelist_layer2[index].sort(key=self.sort_file_fn[1])
-            self.layer1_loaded[index] = True
+                elif self.check_ext(self.filelist_depth1[index]):
+                    self.filelist_depth2[index].append((self.filelist_depth1[index], self.filelist_depth1[index], 1))
+            self.filelist_depth2[index].sort(key=self.sort_file_fn[1])
+            self.depth1_loaded[index] = True
        
         
     def check_ext(self, file):
         return file.name.split('.')[-1].lower() in self.available_extensions
         
     def get_preview_file(self, file):
-        # is_dir, then it's layer3. We find the first file to preview.
+        # is_dir, then it's depth3. We find the first file to preview.
         if file.is_dir():
             for f in file.iterdir():
                 if f.is_dir():
                     continue
                 elif self.check_ext(f):
-                    return f, True
+                    return f, 3
         # is file, then return it
         else:
             if self.check_ext(file):
-                return file, False
+                return file, 2
         return None, None
         
     def get_now_dir(self):
         return str(self.dir)
         
     def get_now_filename(self, indexes):
-        filename = self.filelist_layer3[indexes[2]]
+        filename = self.filelist_depth3[indexes[2]]
         return filename
         
-    def get_layer1_len(self):
-        return len(self.filelist_layer1)
+    def get_depth1_len(self):
+        return len(self.filelist_depth1)
         
-    def get_layer2_len(self, layer1_index):
-        self.set_layer1_dir(layer1_index)
-        return len(self.filelist_layer2[layer1_index])
+    def get_depth2_len(self, depth1_index):
+        self.set_depth1_dir(depth1_index)
+        return len(self.filelist_depth2[depth1_index])
 
-    def get_max_lens(self, layer1_index):
-        return (len(self.filelist_layer1), len(self.filelist_layer2[layer1_index]), len(self.filelist_layer3))
+    def get_max_lens(self, depth1_index):
+        return (len(self.filelist_depth1), len(self.filelist_depth2[depth1_index]), len(self.filelist_depth3))
         
-    def set_sort_fn(self, sort_type, layer, layer1_index):
+    def set_sort_fn(self, sort_type, depth, depth1_index):
         if sort_type == 'd': # date
-            if layer == 2:
-                self.sort_file_fn[layer-1] = lambda x: x[1].stat().st_mtime
+            if depth == 2:
+                self.sort_file_fn[depth-1] = lambda x: x[1].stat().st_mtime
             else:
-                self.sort_file_fn[layer-1] = lambda x: x.stat().st_mtime
+                self.sort_file_fn[depth-1] = lambda x: x.stat().st_mtime
         elif sort_type == 'n': # name
-            if layer == 2:
-                self.sort_file_fn[layer-1] = lambda x: x[1].name
+            if depth == 2:
+                self.sort_file_fn[depth-1] = lambda x: x[1].name
             else:
-                self.sort_file_fn[layer-1] = lambda x: x.name
-        self.sort_file(layer, self.sort_file_fn[layer-1], layer1_index)
+                self.sort_file_fn[depth-1] = lambda x: x.name
+        self.sort_file(depth, self.sort_file_fn[depth-1], depth1_index)
         
-    def sort_file(self, layer, fn, layer1_index):
-        if layer == 1:
-            sorted_layer12 = sorted(zip(self.filelist_layer1, self.filelist_layer2), key=lambda x: fn(x[0]))
-            self.filelist_layer1 = [x[0] for x in sorted_layer12]
-            self.filelist_layer2 = [x[1] for x in sorted_layer12]
-        elif layer == 2:
-            self.filelist_layer2[layer1_index].sort(key=fn)
-        elif layer == 3:
-            self.filelist_layer3.sort(key=fn)
+    def sort_file(self, depth, fn, depth1_index):
+        if depth == 1:
+            sorted_depth12 = sorted(zip(self.filelist_depth1, self.filelist_depth2), key=lambda x: fn(x[0]))
+            self.filelist_depth1 = [x[0] for x in sorted_depth12]
+            self.filelist_depth2 = [x[1] for x in sorted_depth12]
+        elif depth == 2:
+            self.filelist_depth2[depth1_index].sort(key=fn)
+        elif depth == 3:
+            self.filelist_depth3.sort(key=fn)
             
-    def find(self, layer, query, indexes):
-        if layer == 1:
-            search_filelist = self.filelist_layer1
-        elif layer == 2:
-            search_filelist = self.filelist_layer2[indexes[0]]
-        elif layer == 3:
-            search_filelist = self.filelist_layer3
+    def find(self, depth, query, indexes):
+        if depth == 1:
+            search_filelist = self.filelist_depth1
+        elif depth == 2:
+            search_filelist = self.filelist_depth2[indexes[0]]
+        elif depth == 3:
+            search_filelist = self.filelist_depth3
         query = ''.join(query)
         for i in range(len(search_filelist)):
             try:
@@ -374,7 +373,7 @@ class WindowHandler():
             self.browse_handler.handle_keyevent(event, maxindexes)
             new_indexes = self.browse_handler.get_now_indexes()
             if indexes[:2] != new_indexes[:2]:
-                self.file_handler.set_layer3(*new_indexes[:2])
+                self.file_handler.set_depth3(*new_indexes[:2])
                 
         self.set_image()
         self.set_background()
@@ -412,32 +411,32 @@ class WindowHandler():
                     self.handle_command(indexes)
                 new_indexes = self.browse_handler.get_now_indexes()
                 if indexes[:2] != new_indexes[:2]:
-                    self.file_handler.set_layer3(*new_indexes[:2])
+                    self.file_handler.set_depth3(*new_indexes[:2])
                 self.prev_keys = deque()
                 self.function_key = ''
                 
     def handle_search(self, indexes):
         if self.function_key.startswith('///'):
-            layer = 3
+            depth = 3
             index = self.file_handler.find(3, list(self.prev_keys)[3:], indexes)
         elif self.function_key.startswith('//'):
-            layer = 2
+            depth = 2
             index = self.file_handler.find(2, list(self.prev_keys)[2:], indexes)
         elif self.function_key.startswith('/'):
-            layer = 1
+            depth = 1
             index = self.file_handler.find(1, list(self.prev_keys)[1:], indexes)
         if index >= 0:
-            self.browse_handler.set_layer_num(layer, index)
+            self.browse_handler.set_depth_num(depth, index)
         
     def handle_set_index(self, indexes, maxindexes):
         if self.function_key.startswith(';;;'):
-            layer = 3
+            depth = 3
             self.browse_handler.go_to_fileindex(3, list(self.prev_keys)[3:], maxindexes)
         elif self.function_key.startswith(';;'):
-            layer = 2
+            depth = 2
             self.browse_handler.go_to_fileindex(2, list(self.prev_keys)[2:], maxindexes)
         elif self.function_key.startswith(';'):
-            layer = 1
+            depth = 1
             self.browse_handler.go_to_fileindex(1, list(self.prev_keys)[1:], maxindexes)
             
     def handle_command(self, indexes):
@@ -446,25 +445,25 @@ class WindowHandler():
             
     def handle_sort_fn(self, indexes):
         if self.function_key.startswith('\\\\\\'):
-            layer = 3
+            depth = 3
             self._handle_command(3, list(self.prev_keys)[3:], indexes)
         elif self.function_key.startswith('\\\\'):
-            layer = 2
+            depth = 2
             self._handle_command(2, list(self.prev_keys)[2:], indexes)
         elif self.function_key.startswith('\\'):
-            layer = 1
+            depth = 1
             self._handle_command(1, list(self.prev_keys)[1:], indexes)
-        self.browse_handler.set_layer_num(layer, 0)
+        self.browse_handler.set_depth_num(depth, 0)
         new_indexes = self.browse_handler.get_now_indexes()
-        self.file_handler.set_layer3(*new_indexes[:2])
+        self.file_handler.set_depth3(*new_indexes[:2])
         self.set_image()
         
-    def _handle_command(self, layer, command, indexes):
+    def _handle_command(self, depth, command, indexes):
         command = ''.join(command).lower()
         if command.startswith('sort'):
             method = command.split(' ')[1]
-            self.file_handler.handle_sort_fn(method, layer, indexes)
-            self.browse_handler.set_layer_num(layer, 0)
+            self.file_handler.handle_sort_fn(method, depth, indexes)
+            self.browse_handler.set_depth_num(depth, 0)
         
     def handle_change_root_dir(self, event):
         if 49 <= event.keycode <= 54:
@@ -480,8 +479,10 @@ class WindowHandler():
             maxindexes = self.file_handler.get_max_lens(indexes[0])
             if maxindexes[2] != 1:
                 self.root.title(f'ImageViewer {self.file_handler.dir} [{indexes[0]+1}/{maxindexes[0]}] [{indexes[1]+1}/{maxindexes[1]}] [{indexes[2]+1}/{maxindexes[2]}]')
-            else:
+            elif maxindexes[1] != 1:
                 self.root.title(f'ImageViewer {self.file_handler.dir} [{indexes[0]+1}/{maxindexes[0]}] [{indexes[1]+1}/{maxindexes[1]}]')
+            else:
+                self.root.title(f'ImageViewer {self.file_handler.dir} [{indexes[0]+1}/{maxindexes[0]}]')
             
     def set_image(self, force=False):
         indexes = self.browse_handler.get_now_indexes()
