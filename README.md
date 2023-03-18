@@ -1,4 +1,4 @@
-# TL Image Viewer
+# TD Image Viewer
 This is an Image Viewer developed using the Python TK package with the goal of providing a user-friendly way to view pictures, particularly when viewing through multiple folders. With this tool, you can efficiently navigate through pictures up to three levels deep using keyboard shortcuts.
 
 # Usage
@@ -17,13 +17,13 @@ window_config:
     width: 1024
     height: 768
 directory_config:
-    directory1: -
-    directory2: -
-    directory3: -
-    directory4: -
-    directory5: -
-    directory6: -
-    init_dir: -
+    directory1: ""
+    directory2: ""
+    directory3: ""
+    directory4: ""
+    directory5: ""
+    directory6: ""
+    init_dir: ""
 available_extension: 
  - BMP
  - ICO
@@ -37,9 +37,9 @@ available_extension:
  - tiff
 threads: 4
 ```
-The 'template_config.yaml' file includes settings for the image viewer. To customize your configuration, modify the 'directory_config' section by replacing the dashes with paths to your desired directories. If you don't need to specify many directories, you can simply set the 'init_dir' parameter to the directory you want to open by default, without modifying the other 'directory*'.
+The 'template_config.yaml' file includes settings for the image viewer. To customize your configuration, modify the 'directory_config' section by replacing the empty strings with paths to your desired directories. If you don't need to specify so many root directories, you can simply set the 'init_dir' parameter to the directory you want to open by default, without modifying the other 'directory*'.
 
-This file also specifies the list of supported image file extensions under the 'available_extension' parameter, and sets the 'threads' parameter to control the number of threads used for image processing.
+This file also specifies the list of supported image file extensions under the 'available_extension' parameter, and sets the 'threads' parameter to control the number of threads used for image loading.
 
 After you've updated the configuration and renamed the file, you can launch the image viewer with your custom settings.
 # Shortcuts
